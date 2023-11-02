@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee Records Management MVC", "Employee Records Management MVC.csproj", "{F4B8C8F4-A349-4B96-87F9-84CE6C154618}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee Records Management Web API", "..\Employee Records Management Web API\Employee Records Management Web API.csproj", "{C832696F-EF96-42C6-B3D8-C206B2B10145}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4B8C8F4-A349-4B96-87F9-84CE6C154618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B8C8F4-A349-4B96-87F9-84CE6C154618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B8C8F4-A349-4B96-87F9-84CE6C154618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B8C8F4-A349-4B96-87F9-84CE6C154618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C832696F-EF96-42C6-B3D8-C206B2B10145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C832696F-EF96-42C6-B3D8-C206B2B10145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C832696F-EF96-42C6-B3D8-C206B2B10145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C832696F-EF96-42C6-B3D8-C206B2B10145}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE3EA0FA-F0CC-4A1B-A2BD-DA5F6344E0E8}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+﻿namespace Employee_Records_Management_Web_API.Repositories
+{
+    public class Constants
+    {
+        public const string EmployeesList = @"SELECT Employee_Profiles.Employee_Id AS EmployeeID, Employee_Profiles.Department_ID AS DepartmentID, Department_Table.Department_Name AS DepartmentName, Employee_Profiles.First_Name AS FirstName, Employee_Profiles.Last_Name AS LastName, Employee_Profiles.Date_Of_Birth AS DateOfBirth, Employee_Profiles.Gender, Employee_Profiles.Email_Address AS EmailAddress, Employee_Profiles.Phone_Number AS PhoneNumber, Employee_Profiles.Address FROM Employee_Profiles LEFT JOIN Department_Table ON Employee_Profiles.Department_ID = Department_Table.Department_ID WHERE Employee_Profiles.Is_Deleted = 0 ORDER BY EmployeeID DESC"; 
+        public const string NewUser = @"INSERT INTO Login_Credentials (User_Name, Password, Email_Address, Password_Salt) VALUES (@UserName, @Password, @EmailAddress, @PasswordSalt)"; 
+        public const string NewEmployee = @"INSERT INTO Employee_Profiles (Department_ID, First_Name, Last_Name, Date_Of_Birth, Gender, Email_Address, Phone_Number, Address) VALUES (@DepartmentID, @FirstName, @LastName, @DateOfBirth, @Gender, @EmailAddress, @PhoneNumber, @Address)";
+        public const string DepartmentList = "SELECT Department_ID DepartmentID, Department_Name DepartmentName, Department_Code DepartmentCode FROM Department_Table WHERE Is_Deleted=0";
+        public const string GetEmployee = @"SELECT Employee_Profiles.Employee_ID AS EmployeeID, Employee_Profiles.Department_ID AS DepartmentID, Department_Table.Department_Name AS DepartmentName, Employee_Profiles.First_Name AS FirstName, Employee_Profiles.Last_Name AS LastName, Employee_Profiles.Date_Of_Birth AS DateOfBirth, Employee_Profiles.Gender, Employee_Profiles.Email_Address AS EmailAddress, Employee_Profiles.Phone_Number AS PhoneNumber, Employee_Profiles.Address FROM Employee_Profiles LEFT JOIN Department_Table ON Employee_Profiles.Department_ID = Department_Table.Department_ID WHERE Employee_Profiles.Employee_ID = @EmployeeID AND Employee_Profiles.Is_Deleted = 0"; 
+        public const string UpdateEmployeeDetailsById = @"UPDATE Employee_Profiles SET Department_ID = @DepartmentID, First_Name = @FirstName, Last_Name = @LastName, Date_Of_Birth = @DateOfBirth, Gender = @Gender, Email_Address = @EmailAddress, Phone_Number = @PhoneNumber, Address = @Address, Updated_Time_Stamp = GETDATE() WHERE Employee_ID = @EmployeeID AND Employee_Profiles.Is_Deleted = 0"; 
+        public const string DeleteEmployee = "UPDATE Employee_Profiles SET Is_Deleted = 1, Updated_Time_Stamp = GETDATE() WHERE Employee_ID = @EmployeeId"; 
+        public const string GetLoginCredentials = "SELECT Email_Address EmailAddress, Password_Salt PasswordSalt, Password Password FROM Login_Credentials WHERE Email_Address = @EmailAddress AND Login_Credentials.Is_Deleted = 0";
+        public const string CheckEmailExists = "SELECT Password, Email_Address EmailAddress, Password_Salt PasswordSalt FROM Login_Credentials WHERE Email_Address = @EmailAddress AND Is_Deleted = 0";
+    }
+}

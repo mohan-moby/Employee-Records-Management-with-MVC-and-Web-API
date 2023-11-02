@@ -1,0 +1,216 @@
+﻿@model Employee_Records_Management_MVC.Models.EmployeeProfiles
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    #DateOfBirth, .radio, #DepartmentID {
+        cursor: pointer;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+        label.error {
+            font-weight: 700;
+            display: block;
+            color: indianred;
+            font-size: 14px;
+        }
+
+  /*  input[type="text"],
+    select,
+    input[type="date"],
+    input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }*/
+
+    .btn-primary {
+        background-color: #009bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <h1>Update Employee Details</h1>
+    <br />
+    <h3>@($"{Model.FirstName} {Model.LastName}")</h3>
+    <hr />
+    <div class="form-group">
+        <form id="employeeForm" action="/EmployeeMVC/Edit" autocomplete="off" method="post">
+            <div class="form-group">
+                <label asp-for="FirstName"><span class="text-danger">*</span>First Name</label>
+               @* <input asp-for="FirstName" class="form-control" maxlength="50" required />*@
+                <input asp-for="FirstName" name="FirstName" type="text" class="form-control"                       
+                       maxlength=50
+                       pattern="/^[A-Za-z0-9 ]+$/"
+                       title="Name must not contain any Special Characters" />
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName">Last Name</label>
+                <input asp-for="LastName" class="form-control" maxlength="50" />
+                <span class="text-danger" asp-validation-for="LastName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentID"><span class="text-danger">*</span>Department</label>
+                <select asp-for="DepartmentID" class="form-control form-select" required>
+                    <option value="">Select Department</option>
+                    @if (Model.DepartmentList != null)
+                    {
+                        foreach (var department in Model.DepartmentList)
+                        {
+                            <option value="@department.DepartmentID">@department.DepartmentName</option>
+                        }
+                    }
+                </select>
+                <span class="text-danger" asp-validation-for="DepartmentID"></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="dateOfBirth"><span class="text-danger">*</span>Date Of Birth</label>
+                <input asp-for="DateOfBirth" id="DateOfBirth" name="DateOfBirth" class="form-control" type="date" required="required" placeholder="Select a Date" data-date-format="dd-mm-yy">
+                <span class="text-danger" asp-validation-for="DateOfBirth"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender"><span class="text-danger">*</span>Gender</label>
+                <div class="radio-container">
+                    <input type="radio" asp-for="Gender" class="radio" value="Male" /> Male
+                    <input type="radio" asp-for="Gender" class="radio" value="Female" /> Female
+                </div>
+                <span class="text-danger" asp-validation-for="Gender"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress"><span class="text-danger">*</span>Email Address</label>
+                <input asp-for="EmailAddress" class="form-control" maxlength="200" required />
+                <span class="text-danger" asp-validation-for="EmailAddress"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"><span class="text-danger">*</span>Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" maxlength="14" required />
+                <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"><span class="text-danger">*</span>Address</label>
+                <input asp-for="Address" class="form-control" maxlength="1000" required />
+                <span class="text-danger" asp-validation-for="Address"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Employee" id="btn_sub" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary" style="float: right;">Back to List</a>
+            </div>
+            <input type="hidden" asp-for="EmployeeID" />
+        </form>
+    </div>   
+</body>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $.validator.addMethod("noSpecialChars", function (value, element) {           
+            return /^[A-Za-z0-9 ]+$/.test(value);
+        }, "Please enter a valid First Name without special characters.");
+
+        $(document).ready(function () {
+            $("#PhoneNumber").inputmask("(999)999-9999");
+            $("#employeeForm").validate({
+                rules: {
+                    FirstName: {
+                        required: true,
+                        minlength: 2,
+                        noSpecialChars: true
+                    },
+                    //LastName: {
+                    //    required: true
+                    //    //pattern: /^[A-Za-z\s\-]+$/
+                    //},
+                    DepartmentID: {
+                        required: true
+                        //selectcheck: true
+                    },
+                    DateOfBirth: { required: true, date: true },
+                    EmailAddress: { required: true, email: true, minlength: 2 },
+                    Gender: {
+                        required: true
+                    },
+                    PhoneNumber: {
+                        required: true,
+                        maxlength: 14,
+                        minlength: 10
+                    },
+                    Address: "required"
+                },
+                messages: {
+                    FirstName: {
+                        required: "Please enter your First Name",
+                        minlength: "Please enter a valid First Name"
+                    },
+                    //LastName: {
+                    //    required: "Please enter your Last Name"
+                    //},
+                    DepartmentID: "Please select a department",
+                    DateOfBirth: {
+                        required: "Please Enter Your Date Of Birth",
+                        date: "Please Enter Correct Date Format"
+                    },
+                    EmailAddress: {
+                        required: "Please enter your Email Id",
+                        minlength: "Name atleast 2 characters"
+                    },
+                    Gender: "Selct any one",
+                    PhoneNumber: {
+                        required: "Please enter your Phone Number",
+                        maxlength: "Phone Number should not exceed 12 numbers",
+                        minlength: "Phone Number should have minimum 10 numbers"
+                    },
+                    Address: "Please enter your complete address"
+                },
+            });
+            dateconfig = {
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+                minDate: "1960-01-01",
+                maxDate: "today"
+            };
+            flatpickr("input[type=date]", dateconfig);
+        });
+
+    </script>
+}

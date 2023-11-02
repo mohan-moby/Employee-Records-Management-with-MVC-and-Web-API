@@ -1,0 +1,207 @@
+﻿@model Employee_Records_Management_MVC.Models.SignUpCredentials
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<h1>Sign Up</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" id="error-message">
+        @ViewBag.ErrorMessage
+    </div>
+}
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label.error {
+        font-weight: bold;
+        display: block;
+        color: red;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    .text-danger {
+        color: red;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        preventDuplicates: true,
+        positionClass: "toast-top-right",
+        showMethod: "slideDown",
+        timeOut: 3000
+    };
+</script>
+
+<body>
+    <hr />
+    <div class="container">
+        <form id="signupForm" asp-controller="EmployeeMVC" asp-action="SignUp" method="post">
+            <div class="form-group">
+                <label asp-for="UserName"><span class="text-danger">*</span>User Name</label>
+                <input asp-for="UserName" name="UserName" class="form-control" required />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress"><span class="text-danger">*</span>Email Address</label>
+                <input asp-for="EmailAddress" name="EmailAddress" class="form-control" required />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"><span class="text-danger">*</span>Password</label>
+                <input asp-for="Password" name="Password" type="password" class="form-control"
+                       required
+                       maxlength=12
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@@%&]).{8,}$"
+                       title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character (#$^+=!*()@@%&)." />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                @* <p class="text-danger">Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character (#$^+=!*()@@%&).</p>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"><span class="text-danger">*</span>Confirm Password</label>
+                <input asp-for="ConfirmPassword" name="ConfirmPassword" type="password" maxlength="12" class="form-control" required />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <a href="/EmployeeMVC/Login/" class="btn btn-primary" style="float: right;">Login?</a>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+
+            $.validator.addMethod("strongPassword", function (value, element) {
+                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/.test(value);
+            }, "Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.");
+
+            $("#signupForm").validate({
+                rules: {
+                    UserName: {
+                        required: true,
+                        minlength: 2
+                    },
+                    EmailAddress: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                        strongPassword: true  
+                    },
+                    ConfirmPassword: {
+                        required: true,
+                        equalTo: "#Password"
+                    }
+                },
+                messages: {
+                    UserName: {
+                        required: "Please enter your username",
+                        minlength: "Username must be at least 8 characters long"
+                    },
+                    EmailAddress: {
+                        required: "Please enter your email address",
+                        email: "Please enter a valid email address"
+                    },
+                    Password: {
+                        required: "Please enter a strong password",
+                    },
+                    ConfirmPassword: {
+                        required: "Please confirm your password",
+                        equalTo: "Passwords do not match"
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element);
+                }
+            });
+            $("#EmailAddress").on("keyup", function () {
+                var emailError = $("span[data-valmsg-for='EmailAddress']");
+                emailError.html("");
+            });
+        });
+    </script>
+    <script>
+
+        function hideErrorMessage() {
+            $("#error-message").fadeOut(2000); // 2000 milliseconds (2 seconds)
+        }
+        $(document).ready(function () {
+            if (!@string.IsNullOrEmpty(ViewBag.ErrorMessage)) {
+                hideErrorMessage();
+            }
+        });
+
+        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        {
+            <text>
+                toastr.success("@ViewBag.SuccessMessage");
+            setTimeout(function () {
+                window.location.href = "/EmployeeMVC/Login"; // Redirect after 3 seconds
+            }, 3000); // 3000 milliseconds (3 seconds)
+            </text>
+        }
+    </script>
+
+
+    }

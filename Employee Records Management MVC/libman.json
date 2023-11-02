@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "C:\\Users\\accou\\Downloads\\jQuery-Mask-Plugin-master",
+      "destination": "wwwroot/js/NewFolder/jQuery-Mask-Plugin-master/"
+    }
+  ]
+}
