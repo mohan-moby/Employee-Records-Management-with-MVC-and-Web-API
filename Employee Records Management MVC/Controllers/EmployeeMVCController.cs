@@ -12,6 +12,7 @@ using Employee_Records_Management_MVC;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Employee_Records_Management_Web_API.Controllers
 {
@@ -356,6 +357,7 @@ namespace Employee_Records_Management_Web_API.Controllers
         /// <param name="updatedEmployee"></param>
         /// <returns></returns>
         [HttpPost]
+        //[Authorize]
         public IActionResult Edit(EmployeeProfiles updatedEmployee)
         {
             if (ModelState.IsValid)
