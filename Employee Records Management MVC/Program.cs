@@ -9,10 +9,6 @@ var configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IConfiguration>(configuration); // Add IConfiguration as a service
 
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 // Add session services
 builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
