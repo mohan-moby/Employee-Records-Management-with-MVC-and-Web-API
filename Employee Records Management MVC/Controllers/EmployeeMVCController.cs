@@ -154,7 +154,7 @@ namespace Employee_Records_Management_Web_API.Controllers
                     {
                         var data = response.Content.ReadAsStringAsync().Result;
                         var loginResult = JsonConvert.DeserializeAnonymousType(data, new { success = false, email = "", token = "" });
-                        
+
                         //DeserializeAnonymousType is a method provided by JsonConvert for deserializing JSON data into an anonymous type.
                         //An anonymous type is a C# feature that allows us to create objects with properties on the fly without defining a specific class.
 
@@ -172,8 +172,8 @@ namespace Employee_Records_Management_Web_API.Controllers
                             {
                                 Subject = new ClaimsIdentity(new[]
                                 {
-                            new Claim(ClaimTypes.Name, userEmail) // Use the extracted email
-                        }),
+                                    new Claim(ClaimTypes.Name, userEmail) // Use the extracted email
+                                }),
                                 Expires = DateTime.UtcNow.AddHours(1),
                                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                             };
@@ -182,9 +182,9 @@ namespace Employee_Records_Management_Web_API.Controllers
 
                             var cookieOptions = new CookieOptions
                             {
-                                Expires = DateTime.Now.AddMinutes(30),
+                                Expires = DateTime.Now.AddMinutes(1),
                             };
-                            Response.Cookies.Append("JWTToken", jsonToken, cookieOptions);
+                            Response.Cookies.Append("JWTTestToken", jsonToken, cookieOptions);
 
                             var redirectUrl = Url.Action("Index", "EmployeeMVC");
                             return Json(new { success = true, redirect = redirectUrl, token = jsonToken });
